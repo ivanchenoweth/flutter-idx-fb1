@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/firebase_options.dart';
 
 void main() {
   runApp(
@@ -40,10 +43,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('debug: HomePage.Widget.build ... ');
+    debugPrint('debug: HomePage.Widget.build 3... ');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register - V5'),
+        title: const Text('Register V2'),
       ),
       body: Column(
         children: [
@@ -62,8 +65,21 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           TextButton(
-            onPressed: () async{},
-            child: const Text('Register v5'),
+            onPressed: () async{
+              await Firebase.initializeApp(
+                options: DefaultFirebaseOptions.currentPlatform,
+              );
+              final email = _email.text;
+              final password = _password.text;
+              final userCredential =
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                email: email,
+                password: password,
+              );
+              debugPrint( 'debug: $userCredential');
+             
+            },
+            child: const Text('Register'),
           ),
         ],
       ),
